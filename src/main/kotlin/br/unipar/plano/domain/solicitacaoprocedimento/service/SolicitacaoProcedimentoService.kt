@@ -35,8 +35,15 @@ class SolicitacaoProcedimentoService(
         }
     }
 
-    fun rejeitarSolicitacao(solicitacaoProcedimento: SolicitacaoProcedimento) {
-        solicitacaoProcedimento.statusSolicitacao = StatusSolicitacaoProcedimento.REJEITADO;
+    fun rejeitarSolicitacao(solicitacaoID: Long, descricaoRejeicao: String) {
+        val solicitacaoProcedimento = solicitacaoProcedimentoRepository.findById(solicitacaoID);
+
+        if(solicitacaoProcedimento.isPresent && solicitacaoProcedimento.get().statusSolicitacao.equals(StatusSolicitacaoProcedimento.ABERTO)){
+            solicitacaoProcedimento.get().statusSolicitacao = StatusSolicitacaoProcedimento.REJEITADO;
+            solicitacaoProcedimento.get().descricaoRejeicao = descricaoRejeicao;
+
+            solicitacaoProcedimentoRepository.save(solicitacaoProcedimento);
+        }
     }
 
     private fun existeDuasSolitacoesLiberadasNoMesmoMes(solicitacoesProcecimentos: List<SolicitacaoProcedimento>,

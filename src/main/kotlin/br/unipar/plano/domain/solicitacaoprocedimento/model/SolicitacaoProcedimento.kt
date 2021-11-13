@@ -34,6 +34,6 @@ data class SolicitacaoProcedimento(
     val data: LocalDate,
 
     @Column(name = "descricao_rejeicao")
-    val descricaoRejeicao: String
+    var descricaoRejeicao: String
 ) {
 }
